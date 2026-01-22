@@ -117,7 +117,7 @@
             transform: translate(2px, 2px);
         }
 
-        /* --- MICRÓFONO 3D (CORREGIDO PARA TODOS LOS NAVEGADORES) --- */
+        /* --- MICRÓFONO 3D (AJUSTE FINO) --- */
         .mic-wrapper {
             position: relative;
             overflow: visible; 
@@ -130,7 +130,7 @@
             background: var(--black);
             z-index: 0;
         }
-        /* CORRECCIÓN FIREFOX/CROSS-BROWSER: Uso de position absolute bottom:0 */
+        /* AJUSTE PARA OPERA/FIREFOX: Altura controlada y anclada abajo */
         .mic-img {
             position: absolute;
             bottom: 0;
@@ -138,18 +138,18 @@
             z-index: 20;
             display: block; 
             width: 100%;
-            height: 115%; /* Se expande hacia arriba automáticamente */
+            height: 108%; /* Reducido de 115% a 108% para que no suba tanto */
             object-fit: cover;
             
             filter: contrast(110%) brightness(1.1);
             transition: transform 0.3s ease;
             
-            /* Máscaras */
-            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+            /* Máscaras para el degradado inferior natural */
+            -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
         }
         .mic-wrapper:hover .mic-img {
-            transform: scale(1.02) translateY(-10px); 
+            transform: scale(1.02) translateY(-5px); 
         }
         .mic-gradient-overlay {
             position: absolute;
@@ -189,7 +189,7 @@
         /* --- ECUALIZADOR BRUTALISTA --- */
         .equalizer {
             display: flex; gap: 2px; align-items: flex-end;
-            height: 20px;
+            height: 18px; /* Altura fija para evitar saltos */
         }
         .eq-bar {
             width: 4px; background: white;
@@ -246,7 +246,6 @@
             background: transparent; 
         }
         
-        /* Estilos Webkit (Chrome, Safari, Edge) */
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none; height: 20px; width: 10px;
             background: white; cursor: pointer; margin-top: -8px; border: 1px solid black;
@@ -255,7 +254,6 @@
             width: 100%; height: 4px; background: rgba(255,255,255,0.3); 
         }
 
-        /* Estilos Firefox (Fix) */
         input[type=range]::-moz-range-thumb {
             height: 20px; width: 10px;
             background: white; cursor: pointer; border: 1px solid black; border-radius: 0;
@@ -296,49 +294,31 @@
     <!-- NAVBAR / BARRA DE NAVEGACIÓN -->
     <nav class="w-full py-4 px-6 flex justify-between items-center sticky top-0 z-50 bg-black/90 backdrop-blur-sm">
         <div class="flex items-center gap-3">
-            <!-- Icono Planeta -->
             <div class="planet-icon">
                 <div class="planet-core"><i class="fas fa-music"></i></div>
                 <div class="planet-ring"></div>
             </div>
-            <!-- Titulo de la Radio -->
             <span class="font-display text-2xl tracking-tighter">RADIO<span class="text-blue-600">VIP</span></span>
         </div>
         
-        <!-- MENU ESCRITORIO -->
         <div class="hidden md:flex gap-8 font-bold text-sm tracking-widest items-center">
-            <!-- RELOJ TIEMPO REAL (Escritorio) -->
-            <div class="live-clock font-mono text-xs border border-white/30 px-2 py-1 bg-black/50 text-gray-300">
-                00:00:00
-            </div>
-
-            <!-- Botones Menú (Uso clases para compartir lógica con móvil) -->
+            <div class="live-clock font-mono text-xs border border-white/30 px-2 py-1 bg-black/50 text-gray-300">00:00:00</div>
             <button class="openGamesBtn hover:underline decoration-2 underline-offset-4 uppercase">Juegos</button>
             <button class="openDJsBtn border border-white px-3 py-1 hover:bg-white hover:text-black transition">DJS LIST</button>
         </div>
         
-        <!-- BOTÓN HAMBURGUESA (MÓVIL) -->
         <button id="mobileMenuBtn" class="md:hidden text-2xl text-white"><i class="fas fa-bars"></i></button>
     </nav>
 
-    <!-- MENU DESPLEGABLE MÓVIL (Nuevo Agregado) -->
+    <!-- MENU DESPLEGABLE MÓVIL -->
     <div id="mobileMenu" class="hidden fixed top-[105px] left-0 w-full bg-black border-b-2 border-white z-40 p-6 flex flex-col gap-6 items-center shadow-2xl">
-        <!-- Reloj Móvil -->
-        <div class="live-clock font-mono text-sm border border-white/30 px-4 py-2 bg-black/50 text-gray-300">
-            00:00:00
-        </div>
-        
-        <button class="openGamesBtn text-xl font-display uppercase tracking-widest hover:text-blue-600 w-full text-center py-2 border-b border-white/10">
-            Juegos
-        </button>
-        
-        <button class="openDJsBtn text-xl font-display uppercase tracking-widest hover:text-blue-600 w-full text-center py-2 border-b border-white/10">
-            DJs List
-        </button>
+        <div class="live-clock font-mono text-sm border border-white/30 px-4 py-2 bg-black/50 text-gray-300">00:00:00</div>
+        <button class="openGamesBtn text-xl font-display uppercase tracking-widest hover:text-blue-600 w-full text-center py-2 border-b border-white/10">Juegos</button>
+        <button class="openDJsBtn text-xl font-display uppercase tracking-widest hover:text-blue-600 w-full text-center py-2 border-b border-white/10">DJs List</button>
     </div>
 
-    <!-- BARRA AZUL DESLIZANTE -->
-    <div class="w-full bg-blue-700 text-white font-display text-sm py-1 border-b-2 border-white marquee-container">
+    <!-- BARRA AZUL DESLIZANTE (Z-INDEX 40 PARA QUE EL MICRÓFONO PASE POR DEBAJO) -->
+    <div class="w-full bg-blue-700 text-white font-display text-sm py-1 border-b-2 border-white marquee-container relative z-40">
         <div class="marquee-content">
             <!-- EDITA EL TEXTO QUE SE DESLIZA AQUI -->
             LIVE STREAMING ✦ RADIO VIP ✦ 24/7 MUSIC ✦ XAT ✦ LIVE STREAMING ✦ RADIO VIP ✦ 24/7 MUSIC ✦ XAT ✦
@@ -352,7 +332,7 @@
         <!-- COLUMNA IZQUIERDA: HERO & PLAYER -->
         <div class="lg:col-span-7 flex flex-col relative z-0">
             
-            <!-- Título Gigante "LIVE NOW" (Ajustado para móvil) -->
+            <!-- Título Gigante "LIVE NOW" -->
             <div class="absolute top-8 left-[-10px] md:top-10 md:left-[-20px] z-30 pointer-events-none">
                 <h1 class="text-[5rem] sm:text-[8rem] md:text-[10rem] leading-[0.8] font-display text-white opacity-90 drop-shadow-xl">
                     LIVE<br>
@@ -364,10 +344,6 @@
             <div class="mic-wrapper w-full aspect-[3/4] md:aspect-square relative mt-24 md:mt-0">
                 <div class="mic-frame"></div>
                 
-                <!-- 
-                   CONFIGURACIÓN PARA GITHUB:
-                   Sube tu imagen 'microfono.png' en la misma carpeta que este archivo.
-                -->
                 <img 
                     src="microfono.png" 
                     alt="Chrome 3D Mic" 
@@ -388,8 +364,8 @@
             <div class="mt-6 border-2 border-white p-4 md:p-6 bg-black relative z-20">
                 <div class="absolute -top-3 left-4 bg-black px-2 font-mono text-xs border border-white text-blue-500">CONTROL UNIT</div>
                 
-                <!-- Indicador EN VIVO y ECUALIZADOR (Corregido: z-index y posición) -->
-                <div class="absolute top-3 right-3 md:top-4 md:right-4 flex items-center gap-3 z-30 pointer-events-none">
+                <!-- Indicador EN VIVO y ECUALIZADOR (Posición ajustada a top-2 right-2 para todos los navegadores) -->
+                <div class="absolute top-2 right-2 flex items-center gap-3 z-30 pointer-events-none">
                     <!-- Ecualizador -->
                     <div class="equalizer hidden md:flex" id="visualizer">
                         <div class="eq-bar"></div>
@@ -408,7 +384,7 @@
                 <audio id="audioPlayer" src="https://mx.hdaudiostreaming.com/8130/stream"></audio>
                 
                 <div class="flex flex-col md:flex-row items-center gap-6 justify-between mt-8 md:mt-0">
-                    <!-- Vinilo Animado (Oculto en pantallas muy pequeñas) -->
+                    <!-- Vinilo Animado -->
                     <div class="mini-vinyl paused-animation hidden xs:flex md:flex" id="vinylRecord"></div>
                     
                     <div class="text-center md:text-left flex-grow w-full">
@@ -425,7 +401,7 @@
                     </div>
                 </div>
 
-                <!-- Control de Volumen (Compatible Firefox/Chrome) -->
+                <!-- Control de Volumen -->
                 <div class="mt-6 flex items-center gap-4">
                     <span class="font-bold text-xs">VOL</span>
                     <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.8">
@@ -501,7 +477,7 @@ Las normas se respetan y el sonido se gestiona de forma justa.
                 </table>
             </div>
 
-            <!-- CALENDARIO BRUTALISTA (Generado por JS) -->
+            <!-- CALENDARIO BRUTALISTA -->
             <div class="grid grid-cols-7 gap-1 mt-auto" id="brutalCalendar">
                 <!-- Javascript rellenará esto automáticamente -->
             </div>
@@ -509,7 +485,7 @@ Las normas se respetan y el sonido se gestiona de forma justa.
         </div>
     </main>
 
-    <!-- FOOTER / PIE DE PAGINA -->
+    <!-- FOOTER -->
     <footer class="mt-12 border-t-2 border-white p-12 bg-black text-center relative overflow-hidden">
         <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
             <span class="font-display text-[20vw] text-transparent" style="-webkit-text-stroke: 2px white;">VIP</span>
@@ -517,16 +493,11 @@ Las normas se respetan y el sonido se gestiona de forma justa.
         <p class="font-mono text-xs text-blue-500">© 2026 EAM DESIGN.</p>
     </footer>
 
-    <!-- ============================================ -->
-    <!-- VENTANAS MODALES (POPUPS) -->
-    <!-- ============================================ -->
-
-    <!-- MODAL DJS -->
+    <!-- MODALES -->
     <div id="djsModal" class="fixed inset-0 bg-blue-900/90 z-[100] hidden flex items-center justify-center">
         <div class="bg-black border-2 border-white p-8 w-[90%] max-w-lg shadow-[10px_10px_0px_white] relative">
             <button id="closeDJsBtn" class="absolute top-0 right-0 bg-white text-black w-10 h-10 font-bold hover:bg-blue-600 hover:text-white transition">X</button>
             <h2 class="font-display text-5xl mb-6">LINEUP</h2>
-            <!-- LISTA DE DJS SIMPLIFICADA -->
             <ul class="font-mono text-lg space-y-4">
                 <li class="border-b border-white/20 pb-2 flex justify-between">
                     <span>DJ EAM</span>
@@ -544,157 +515,109 @@ Las normas se respetan y el sonido se gestiona de forma justa.
         </div>
     </div>
 
-    <!-- MODAL AVISO JUEGOS -->
     <div id="gamesModal" class="fixed inset-0 bg-black/95 z-[100] hidden flex items-center justify-center backdrop-blur-sm">
         <div class="bg-black border-4 border-blue-600 p-10 w-[90%] max-w-md shadow-[15px_15px_0px_white] relative text-center">
             <button id="closeGamesBtn" class="absolute top-2 right-2 text-white hover:text-blue-500 text-xl font-bold"><i class="fas fa-times"></i></button>
-            
             <i class="fas fa-gamepad text-6xl text-white mb-6 animate-bounce"></i>
-            
             <h2 class="font-display text-5xl mb-2 text-white">AVISO</h2>
             <div class="h-1 w-20 bg-blue-600 mx-auto mb-6"></div>
-            
             <p class="font-mono text-sm text-gray-300 mb-8 uppercase leading-relaxed">
                 HABRÁ CAMBIOS EN VIP<br>
-                
-De ahora en adelante, los juegos serán solo para quienes estamos aquí, participando activamente en la sala: con juegos o sin juegos, pero presentes y conversando como siempre.
-
-Ojo, esto no significa que no podamos visitar otras salas. Simplemente queremos priorizar este espacio y a la gente que lo mantiene vivo día a día.
+                De ahora en adelante, los juegos serán solo para quienes estamos aquí, participando activamente en la sala: con juegos o sin juegos, pero presentes y conversando como siempre.
+                Ojo, esto no significa que no podamos visitar otras salas. Simplemente queremos priorizar este espacio y a la gente que lo mantiene vivo día a día.
             </p>
-            
             <button id="okGamesBtn" class="bg-white text-black font-bold font-display tracking-widest px-8 py-3 hover:bg-blue-600 hover:text-white transition uppercase border-2 border-transparent hover:border-white">
                 Entendido
             </button>
         </div>
     </div>
 
-    <!-- ============================================ -->
-    <!-- SCRIPTS JAVASCRIPT (LÓGICA) -->
-    <!-- ============================================ -->
+    <!-- SCRIPTS -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // --- REFERENCIAS AL DOM ---
             const audio = document.getElementById('audioPlayer');
             const playBtn = document.getElementById('playBtn');
             const icon = playBtn.querySelector('i');
             const vinyl = document.getElementById('vinylRecord');
             const eqBars = document.querySelectorAll('.eq-bar');
-            
             let isPlaying = false;
 
-            // --- FUNCIÓN PLAY/PAUSE ---
             playBtn.addEventListener('click', () => {
                 if(isPlaying) {
                     audio.pause();
                     isPlaying = false;
-                    
-                    // Cambiar a icono Play
                     icon.className = 'fas fa-play';
-                    // Estilo Botón Apagado
                     playBtn.classList.remove('bg-blue-600', 'text-white');
                     playBtn.classList.add('bg-white', 'text-black');
-                    // Parar Vinilo
                     vinyl.classList.remove('spin-animation');
                     vinyl.classList.add('paused-animation');
-                    // Parar Ecualizador
                     eqBars.forEach(bar => bar.style.animationPlayState = 'paused');
                 } else {
                     audio.play().then(() => {
                         isPlaying = true;
-                        
-                        // Cambiar a icono Stop/Pause
                         icon.className = 'fas fa-stop';
-                        // Estilo Botón Encendido
                         playBtn.classList.remove('bg-white', 'text-black');
                         playBtn.classList.add('bg-blue-600', 'text-white');
-                        // Girar Vinilo
                         vinyl.classList.remove('paused-animation');
                         vinyl.classList.add('spin-animation');
-                        // Animar Ecualizador
                         eqBars.forEach(bar => bar.style.animationPlayState = 'running');
                     }).catch(e => console.error("Error al reproducir:", e));
                 }
             });
 
-            // --- CONTROL DE VOLUMEN ---
             document.getElementById('volumeSlider').addEventListener('input', (e) => {
                 audio.volume = e.target.value;
             });
 
-            // --- RELOJ EN TIEMPO REAL (IP/LOCAL) ---
             function updateClock() {
-                const clockElements = document.querySelectorAll('.live-clock'); // Actualiza TODOS los relojes (movil y escritorio)
+                const clockElements = document.querySelectorAll('.live-clock');
                 const now = new Date();
                 const timeString = now.toLocaleTimeString('es-ES', { hour12: false });
-                
-                clockElements.forEach(el => {
-                    el.innerText = timeString;
-                });
+                clockElements.forEach(el => { el.innerText = timeString; });
             }
             setInterval(updateClock, 1000); 
             updateClock(); 
 
-            // --- MENU MÓVIL ---
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const mobileMenu = document.getElementById('mobileMenu');
-            
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
+            mobileMenuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
 
-            // --- MODAL DJS (Para botones de escritorio y móvil) ---
             const djsModal = document.getElementById('djsModal');
             document.querySelectorAll('.openDJsBtn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
                     djsModal.classList.remove('hidden');
-                    // Cerrar menu móvil si está abierto
                     if(!mobileMenu.classList.contains('hidden')) mobileMenu.classList.add('hidden');
                 });
             });
-            document.getElementById('closeDJsBtn').addEventListener('click', () => {
-                djsModal.classList.add('hidden');
-            });
+            document.getElementById('closeDJsBtn').addEventListener('click', () => { djsModal.classList.add('hidden'); });
 
-            // --- MODAL JUEGOS (Para botones de escritorio y móvil) ---
             const gamesModal = document.getElementById('gamesModal');
             const closeGamesBtn = document.getElementById('closeGamesBtn');
             const okGamesBtn = document.getElementById('okGamesBtn');
-
             function toggleGamesModal() {
                 gamesModal.classList.toggle('hidden');
-                // Cerrar menu móvil si está abierto
                 if(!mobileMenu.classList.contains('hidden')) mobileMenu.classList.add('hidden');
             }
-
-            document.querySelectorAll('.openGamesBtn').forEach(btn => {
-                btn.addEventListener('click', toggleGamesModal);
-            });
+            document.querySelectorAll('.openGamesBtn').forEach(btn => { btn.addEventListener('click', toggleGamesModal); });
             closeGamesBtn.addEventListener('click', toggleGamesModal);
             okGamesBtn.addEventListener('click', toggleGamesModal);
 
-
-            // --- GENERADOR DE CALENDARIO BRUTALISTA ---
             const cal = document.getElementById('brutalCalendar');
             const daysShort = ['SU','MO','TU','WE','TH','FR','SA'];
             const date = new Date();
-            const currentDayIndex = date.getDay(); // 0 (Dom) - 6 (Sab)
+            const currentDayIndex = date.getDay();
             const currentDate = date.getDate();
             const currentYear = date.getFullYear();
-
-            // Calcular inicio de la semana
             const startOfWeek = new Date(date);
             startOfWeek.setDate(currentDate - currentDayIndex);
 
             for(let i=0; i<7; i++) {
                 const tempDate = new Date(startOfWeek);
                 tempDate.setDate(startOfWeek.getDate() + i);
-                
                 const dName = daysShort[i];
                 const dNum = tempDate.getDate();
                 const isActive = i === currentDayIndex;
-
                 cal.innerHTML += `
                     <div class="aspect-square border border-white flex flex-col items-center justify-between p-2 ${isActive ? 'bg-blue-600 text-white' : 'bg-black text-gray-500'}">
                         <span class="font-mono text-[10px] font-bold opacity-70">${currentYear}</span>
