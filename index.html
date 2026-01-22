@@ -37,6 +37,8 @@
             overflow-x: hidden;
             position: relative;
             padding-top: 65px; /* Espacio reservado para tu Banner superior */
+            -webkit-font-smoothing: antialiased; /* Mejor renderizado en Mac/Chrome */
+            -moz-osx-font-smoothing: grayscale; /* Mejor renderizado en Firefox */
         }
 
         /* --- FONDOS Y TEXTURAS --- */
@@ -71,8 +73,9 @@
         }
 
         .text-outline {
-            -webkit-text-stroke: 1px white;
             color: transparent;
+            -webkit-text-stroke: 1px white; /* Soporte amplio */
+            text-stroke: 1px white; /* Estandar futuro */
         }
         
         /* Animación LIVE NOW (Respiración Neón) */
@@ -114,7 +117,7 @@
             transform: translate(2px, 2px);
         }
 
-        /* --- MICRÓFONO 3D --- */
+        /* --- MICRÓFONO 3D (CORREGIDO PARA TODOS LOS NAVEGADORES) --- */
         .mic-wrapper {
             position: relative;
             overflow: visible; 
@@ -130,16 +133,24 @@
         .mic-img {
             position: relative;
             z-index: 20;
+            display: block; /* Asegura comportamiento de bloque */
             width: 100%;
-            height: 115%; 
+            height: 115%; /* Mantiene altura extra para sobresalir */
             object-fit: cover;
-            margin-top: -15%; 
+            
+            /* Solución Cross-Browser para "sobresalir" sin márgenes negativos problemáticos */
+            transform: translateY(-15%); 
+            
             filter: contrast(110%) brightness(1.1);
             transition: transform 0.3s ease;
-            mask-image: linear-gradient(to bottom, black 80%, transparent 100%); 
+            
+            /* Máscaras */
+            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
         }
         .mic-wrapper:hover .mic-img {
-            transform: scale(1.02) translateY(-5px);
+            /* Mantiene la traslación base y añade efecto hover */
+            transform: translateY(-18%) scale(1.02); 
         }
         .mic-gradient-overlay {
             position: absolute;
@@ -229,13 +240,30 @@
         .paused-animation { animation-play-state: paused; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Estilo del Slider de Volumen */
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        /* --- SLIDERS DE VOLUMEN (Cross-Browser) --- */
+        input[type=range] { 
+            -webkit-appearance: none; 
+            width: 100%; 
+            background: transparent; 
+        }
+        
+        /* Estilos Webkit (Chrome, Safari, Edge) */
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none; height: 20px; width: 10px;
             background: white; cursor: pointer; margin-top: -8px; border: 1px solid black;
         }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: rgba(255,255,255,0.3); }
+        input[type=range]::-webkit-slider-runnable-track { 
+            width: 100%; height: 4px; background: rgba(255,255,255,0.3); 
+        }
+
+        /* Estilos Firefox (Fix) */
+        input[type=range]::-moz-range-thumb {
+            height: 20px; width: 10px;
+            background: white; cursor: pointer; border: 1px solid black; border-radius: 0;
+        }
+        input[type=range]::-moz-range-track {
+            width: 100%; height: 4px; background: rgba(255,255,255,0.3);
+        }
 
         /* --- TABLA DE RANGOS --- */
         .rank-table { width: 100%; border-collapse: collapse; font-family: 'Archivo', sans-serif; text-transform: uppercase; }
@@ -267,7 +295,7 @@
     <div class="paper-overlay"></div>
 
     <!-- NAVBAR / BARRA DE NAVEGACIÓN -->
-    <nav class="w-full py-4 px-6 flex justify-between items-center sticky top-0 z-50">
+    <nav class="w-full py-4 px-6 flex justify-between items-center sticky top-0 z-50 bg-black/90 backdrop-blur-sm">
         <div class="flex items-center gap-3">
             <!-- Icono Planeta -->
             <div class="planet-icon">
@@ -278,20 +306,37 @@
             <span class="font-display text-2xl tracking-tighter">RADIO<span class="text-blue-600">VIP</span></span>
         </div>
         
+        <!-- MENU ESCRITORIO -->
         <div class="hidden md:flex gap-8 font-bold text-sm tracking-widest items-center">
-            <!-- RELOJ TIEMPO REAL -->
-            <div id="realTimeClock" class="font-mono text-xs border border-white/30 px-2 py-1 bg-black/50 text-gray-300">
+            <!-- RELOJ TIEMPO REAL (Escritorio) -->
+            <div class="live-clock font-mono text-xs border border-white/30 px-2 py-1 bg-black/50 text-gray-300">
                 00:00:00
             </div>
 
-            <!-- Botones Menú -->
-            <button id="openGamesBtn" class="hover:underline decoration-2 underline-offset-4 uppercase">Juegos</button>
-            <button id="openDJsBtn" class="border border-white px-3 py-1 hover:bg-white hover:text-black transition">DJS LIST</button>
+            <!-- Botones Menú (Uso clases para compartir lógica con móvil) -->
+            <button class="openGamesBtn hover:underline decoration-2 underline-offset-4 uppercase">Juegos</button>
+            <button class="openDJsBtn border border-white px-3 py-1 hover:bg-white hover:text-black transition">DJS LIST</button>
         </div>
         
-        <!-- Menu Movil Hamburguesa (Solo visual) -->
-        <button class="md:hidden text-2xl"><i class="fas fa-bars"></i></button>
+        <!-- BOTÓN HAMBURGUESA (MÓVIL) -->
+        <button id="mobileMenuBtn" class="md:hidden text-2xl text-white"><i class="fas fa-bars"></i></button>
     </nav>
+
+    <!-- MENU DESPLEGABLE MÓVIL (Nuevo Agregado) -->
+    <div id="mobileMenu" class="hidden fixed top-[105px] left-0 w-full bg-black border-b-2 border-white z-40 p-6 flex flex-col gap-6 items-center shadow-2xl">
+        <!-- Reloj Móvil -->
+        <div class="live-clock font-mono text-sm border border-white/30 px-4 py-2 bg-black/50 text-gray-300">
+            00:00:00
+        </div>
+        
+        <button class="openGamesBtn text-xl font-display uppercase tracking-widest hover:text-blue-600 w-full text-center py-2 border-b border-white/10">
+            Juegos
+        </button>
+        
+        <button class="openDJsBtn text-xl font-display uppercase tracking-widest hover:text-blue-600 w-full text-center py-2 border-b border-white/10">
+            DJs List
+        </button>
+    </div>
 
     <!-- BARRA AZUL DESLIZANTE -->
     <div class="w-full bg-blue-700 text-white font-display text-sm py-1 border-b-2 border-white marquee-container">
@@ -381,7 +426,7 @@
                     </div>
                 </div>
 
-                <!-- Control de Volumen -->
+                <!-- Control de Volumen (Compatible Firefox/Chrome) -->
                 <div class="mt-6 flex items-center gap-4">
                     <span class="font-bold text-xs">VOL</span>
                     <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.8">
@@ -580,33 +625,53 @@ Ojo, esto no significa que no podamos visitar otras salas. Simplemente queremos 
 
             // --- RELOJ EN TIEMPO REAL (IP/LOCAL) ---
             function updateClock() {
-                const clockEl = document.getElementById('realTimeClock');
+                const clockElements = document.querySelectorAll('.live-clock'); // Actualiza TODOS los relojes (movil y escritorio)
                 const now = new Date();
-                clockEl.innerText = now.toLocaleTimeString('es-ES', { hour12: false });
+                const timeString = now.toLocaleTimeString('es-ES', { hour12: false });
+                
+                clockElements.forEach(el => {
+                    el.innerText = timeString;
+                });
             }
             setInterval(updateClock, 1000); 
             updateClock(); 
 
-            // --- MODAL DJS ---
+            // --- MENU MÓVIL ---
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // --- MODAL DJS (Para botones de escritorio y móvil) ---
             const djsModal = document.getElementById('djsModal');
-            document.getElementById('openDJsBtn').addEventListener('click', (e) => {
-                e.preventDefault();
-                djsModal.classList.remove('hidden');
+            document.querySelectorAll('.openDJsBtn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    djsModal.classList.remove('hidden');
+                    // Cerrar menu móvil si está abierto
+                    if(!mobileMenu.classList.contains('hidden')) mobileMenu.classList.add('hidden');
+                });
             });
             document.getElementById('closeDJsBtn').addEventListener('click', () => {
                 djsModal.classList.add('hidden');
             });
 
-            // --- MODAL JUEGOS ---
+            // --- MODAL JUEGOS (Para botones de escritorio y móvil) ---
             const gamesModal = document.getElementById('gamesModal');
-            const openGamesBtn = document.getElementById('openGamesBtn');
             const closeGamesBtn = document.getElementById('closeGamesBtn');
             const okGamesBtn = document.getElementById('okGamesBtn');
 
             function toggleGamesModal() {
                 gamesModal.classList.toggle('hidden');
+                // Cerrar menu móvil si está abierto
+                if(!mobileMenu.classList.contains('hidden')) mobileMenu.classList.add('hidden');
             }
-            openGamesBtn.addEventListener('click', toggleGamesModal);
+
+            document.querySelectorAll('.openGamesBtn').forEach(btn => {
+                btn.addEventListener('click', toggleGamesModal);
+            });
             closeGamesBtn.addEventListener('click', toggleGamesModal);
             okGamesBtn.addEventListener('click', toggleGamesModal);
 
