@@ -492,11 +492,11 @@ Las normas se respetan y el sonido se gestiona de forma justa.
     <!-- FOOTER -->
     <footer class="mt-12 border-t-2 border-white p-8 bg-black text-center relative overflow-hidden flex flex-col items-center gap-6">
         <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
-            <span class="font-display text-[20vw] text-transparent" style="-webkit-text-stroke: 2px white;">VIP</span>
+            <!-- AQUÍ ES DONDE CAMBIE EL TAMAÑO DE TEXTO PARA MOVIL -->
+            <span class="font-display text-[15rem] md:text-[20vw] text-transparent" style="-webkit-text-stroke: 2px white;">VIP</span>
         </div>
         
         <!-- WIDGET DE VISITA CON BANDERA (IP + FLAGCDN) -->
-        <!-- Estilo brutalista: fondo negro semi-transparente, borde blanco/transparente, sombra solida -->
         <div id="visitWidget" class="relative z-20 flex flex-col items-center gap-2 p-4 border border-white/20 bg-black/90 shadow-[4px_4px_0px_rgba(255,255,255,0.2)] mt-6 mb-6 w-full max-w-xs mx-auto">
             <div class="flex items-center gap-3">
                 <!-- Contenedor Bandera -->
@@ -647,34 +647,32 @@ Las normas se respetan y el sonido se gestiona de forma justa.
                 `;
             }
 
-            // --- WIDGET DE BANDERA (IP + FLAGCDN) ---
-            const flagContainer = document.getElementById('userFlag');
-            
-            // 1. Fetch a la API de IP
+            // --- DETECCIÓN DE PAÍS CON BANDERA (Solución robusta con ipwho.is + FlagCDN) ---
             fetch('https://ipwho.is/')
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
+                    // Si la API tiene éxito y devuelve un código de país
+                    if(data.success && data.country_code) {
                         const countryCode = data.country_code.toLowerCase();
-                        // 2. Inyección de la Bandera
-                        flagContainer.innerHTML = `
-                            <img src="https://flagcdn.com/w80/${countryCode}.png" 
+                        // Inyectamos la imagen de la bandera desde FlagCDN
+                        document.getElementById('userFlag').innerHTML = `
+                            <img src="https://flagcdn.com/w40/${countryCode}.png" 
                                  alt="${data.country}" 
-                                 title="Visitante de ${data.country}"
-                                 class="w-10 h-auto rounded-sm shadow-sm opacity-90 hover:opacity-100 transition-opacity">
+                                 style="width: 24px; height: auto; border-radius: 2px; opacity: 0.9; display: inline-block;">
                         `;
                     } else {
-                        // Fallback si falla la API
-                        flagContainer.innerHTML = '<i class="fas fa-globe text-gray-500 text-2xl"></i>';
+                        // Fallback si no se detecta país
+                        document.getElementById('userFlag').innerText = "🌐"; 
                     }
                 })
-                .catch(err => {
-                    console.error("Error IP:", err);
-                    flagContainer.innerHTML = '<i class="fas fa-globe text-gray-500 text-2xl"></i>';
+                .catch(error => {
+                    console.log("Error obteniendo ubicación:", error);
+                    document.getElementById('userFlag').innerText = "🌐"; 
                 });
         });
     </script>
 </body>
 </html>
+
 
 
