@@ -154,7 +154,7 @@
             z-index: 20;
             display: block; 
             width: 100%;
-            height: 110%; /* Ajustado para evitar solapamiento */
+            height: 108%; /* Ajustado para evitar solapamiento */
             object-fit: cover;
             
             filter: contrast(110%) brightness(1.1);
@@ -339,7 +339,6 @@
             LIVE STREAMING ✦ RADIO VIP ✦ 24/7 MUSIC ✦ XAT ✦ LIVE STREAMING ✦ RADIO VIP ✦ 24/7 MUSIC ✦ XAT ✦
             LIVE STREAMING ✦ RADIO VIP ✦ 24/7 MUSIC ✦ XAT ✦ LIVE STREAMING ✦ RADIO VIP ✦ 24/7 MUSIC ✦ XAT ✦
             LIVE STREAMING ✦ RADIO VIP ✦ 24/7 MUSIC ✦ XAT ✦ LIVE STREAMING ✦ RADIO VIP ✦ 24/7 MUSIC ✦ XAT ✦
-            LIVE STREAMING ✦ RADIO VIP ✦ 24/7 MUSIC ✦ XAT ✦ LIVE STREAMING ✦ RADIO VIP ✦ 24/7 MUSIC ✦ XAT ✦
         </div>
     </div>
 
@@ -363,6 +362,7 @@
                 
                 <img 
                     src="microfono.png" 
+                    onerror="this.src='https://i.ibb.co/TD6N1Rr9/Chat-GPT-Image-22-ene-2026-12-31-02-p-m.png'"
                     alt="Chrome 3D Mic" 
                     class="mic-img"
                 >
@@ -375,16 +375,13 @@
                 <div class="rotating-star absolute top-4 right-4 text-white text-4xl md:text-6xl z-30 drop-shadow-md">✦</div>
             </div>
 
-            <!-- UNIDAD DE CONTROL (REPRODUCTOR) -->
+            <!-- UNIDAD DE CONTROL -->
             <div class="mt-6 border-2 border-white p-4 md:p-6 bg-black relative z-20">
                 <div class="absolute -top-3 left-4 bg-black px-2 font-mono text-xs border border-white text-blue-500">RADIO VIP</div>
                 
                 <div class="absolute top-2 right-2 flex items-center gap-3 z-30 pointer-events-none">
                     <div class="equalizer hidden md:flex" id="visualizer">
-                        <div class="eq-bar"></div>
-                        <div class="eq-bar"></div>
-                        <div class="eq-bar"></div>
-                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
                     </div>
                     <div class="flex items-center gap-2 bg-red-600 px-2 py-1 border border-white live-indicator shadow-lg">
                         <div class="w-2 h-2 bg-white rounded-full"></div>
@@ -396,13 +393,11 @@
                 
                 <div class="flex flex-col md:flex-row items-center gap-6 justify-between mt-8 md:mt-0">
                     <div class="mini-vinyl paused-animation hidden xs:flex md:flex" id="vinylRecord"></div>
-                    
                     <div class="text-center md:text-left flex-grow w-full">
                         <h2 class="text-2xl md:text-3xl mt-2 md:mt-0">MÚSICA EN VIVO</h2>
                         <div class="h-1 w-full md:w-40 bg-blue-600 my-2 mx-auto md:mx-0"></div>
                         <p class="font-mono text-sm text-gray-400">LIVE BROADCAST SIGNAL</p>
                     </div>
-                    
                     <div class="flex gap-4 flex-shrink-0 mt-4 md:mt-0">
                          <button class="player-control-btn w-12 h-12 md:w-[60px] md:h-[60px] text-xl md:text-2xl"><i class="fas fa-backward"></i></button>
                          <button id="playBtn" class="player-control-btn bg-white text-black hover:bg-blue-600 hover:text-white border-none w-12 h-12 md:w-[60px] md:h-[60px] text-xl md:text-2xl"><i class="fas fa-play"></i></button>
@@ -418,9 +413,8 @@
             </div>
         </div>
 
-        <!-- COLUMNA DERECHA: TEXTO, RANGOS, CALENDARIO -->
+        <!-- COLUMNA DERECHA -->
         <div class="lg:col-span-5 flex flex-col gap-8 pt-8 lg:pt-0">
-            
             <div class="brutal-box p-6">
                 <h3 class="font-display text-3xl md:text-4xl mb-2 text-blue-500">STAFF ACCESS</h3>
                 <p class="font-mono text-sm text-gray-300 leading-relaxed text-justify uppercase">
@@ -431,8 +425,7 @@ Las normas se respetan y el sonido se gestiona de forma justa.
                 </p>
             </div>
 
-            <!-- TABLA DE RANGOS CON SCROLL -->
-            <!-- Se ha añadido max-h y scroll para listas largas de rangos -->
+            <!-- TABLA DE RANGOS -->
             <div class="border-2 border-white bg-black overflow-x-auto max-h-[350px] overflow-y-auto custom-scrollbar">
                 <div class="bg-white text-black font-bold p-2 text-center font-display tracking-widest text-xl sticky top-0 z-10">
                     RANGOS
@@ -446,81 +439,79 @@ Las normas se respetan y el sonido se gestiona de forma justa.
                         </tr>
                     </thead>
                     <tbody>
-                        
-                        <!-- FILA 1: MAIN OWNER (Naranja) -->
                         <tr class="group">
                             <td class="text-blue-500">01</td>
                             <td><div class="flex items-center gap-3"><i class="fas fa-star text-xl"></i><span class="group-hover:translate-x-2 transition-transform inline-block">ELIZA</span></div></td>
                             <td class="text-right font-bold text-orange-500" style="color: var(--vip-orange);">MAIN OWNER</td>
                         </tr>
-                        
-                        <!-- FILA 2: OWNER -->
                         <tr class="group">
                             <td class="text-gray-500">02</td>
                             <td><div class="flex items-center gap-3"><i class="fas fa-certificate text-xl"></i><span class="group-hover:translate-x-2 transition-transform inline-block">EZEQUIEL</span></div></td>
                             <td class="text-right text-gray-400">OWNER</td>
                         </tr>
-
-                        <!-- FILA 3: OWNER -->
                         <tr class="group">
                             <td class="text-gray-500">03</td>
                             <td><div class="flex items-center gap-3"><i class="fas fa-circle text-xs border border-white rounded-full p-1"></i><span class="group-hover:translate-x-2 transition-transform inline-block">DAV</span></div></td>
                             <td class="text-right text-gray-400">OWNER</td>
                         </tr>
-                        
-                        <!-- FILA 4: OWNER -->
                         <tr class="group">
                             <td class="text-gray-500">04</td>
                             <td><div class="flex items-center gap-3"><i class="fas fa-circle text-xs border border-white rounded-full p-1"></i><span class="group-hover:translate-x-2 transition-transform inline-block">Cinderella</span></div></td>
                             <td class="text-right text-gray-400">OWNER</td>
                         </tr>
-
-                        <!-- FILA 5: OWNER -->
                         <tr class="group">
                             <td class="text-gray-500">05</td>
                             <td><div class="flex items-center gap-3"><i class="fas fa-circle text-xs border border-white rounded-full p-1"></i><span class="group-hover:translate-x-2 transition-transform inline-block">Quimera</span></div></td>
                             <td class="text-right text-gray-400">OWNER</td>
                         </tr>
-
-                           <!-- FILA 6: OWNER -->
                         <tr class="group">
                             <td class="text-gray-500">06</td>
                             <td><div class="flex items-center gap-3"><i class="fas fa-circle text-xs border border-white rounded-full p-1"></i><span class="group-hover:translate-x-2 transition-transform inline-block">Solita</span></div></td>
                             <td class="text-right text-gray-400">OWNER</td>
                         </tr>
-
-                              <!-- FILA 7: OWNER -->
                         <tr class="group">
                             <td class="text-gray-500">07</td>
                             <td><div class="flex items-center gap-3"><i class="fas fa-circle text-xs border border-white rounded-full p-1"></i><span class="group-hover:translate-x-2 transition-transform inline-block">Sandi</span></div></td>
                             <td class="text-right text-gray-400">OWNER</td>
                         </tr>
-
-                               <!-- FILA 8: OWNER -->
                         <tr class="group">
                             <td class="text-gray-500">08</td>
                             <td><div class="flex items-center gap-3"><i class="fas fa-circle text-xs border border-white rounded-full p-1"></i><span class="group-hover:translate-x-2 transition-transform inline-block">Rojita</span></div></td>
                             <td class="text-right text-gray-400">OWNER</td>
                         </tr>
-
                     </tbody>
                 </table>
             </div>
 
-            <!-- CALENDARIO BRUTALISTA -->
-            <div class="grid grid-cols-7 gap-1 mt-auto" id="brutalCalendar">
-                <!-- Javascript rellenará esto automáticamente -->
-            </div>
-
+            <!-- CALENDARIO -->
+            <div class="grid grid-cols-7 gap-1 mt-auto" id="brutalCalendar"></div>
         </div>
     </main>
 
     <!-- FOOTER -->
-    <footer class="mt-12 border-t-2 border-white p-12 bg-black text-center relative overflow-hidden">
+    <footer class="mt-12 border-t-2 border-white p-8 bg-black text-center relative overflow-hidden flex flex-col items-center gap-6">
         <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
             <span class="font-display text-[20vw] text-transparent" style="-webkit-text-stroke: 2px white;">VIP</span>
         </div>
-        <p class="font-mono text-xs text-blue-500">© 2026 EAM DESIGN.</p>
+        
+        <!-- WIDGET DE VISITA CON BANDERA (IP + FLAGCDN) -->
+        <!-- Estilo brutalista: fondo negro semi-transparente, borde blanco/transparente, sombra solida -->
+        <div id="visitWidget" class="relative z-20 flex flex-col items-center gap-2 p-4 border border-white/20 bg-black/90 shadow-[4px_4px_0px_rgba(255,255,255,0.2)] mt-6 mb-6 w-full max-w-xs mx-auto">
+            <div class="flex items-center gap-3">
+                <!-- Contenedor Bandera -->
+                <span id="userFlag" class="text-3xl min-w-[40px] flex justify-center filter drop-shadow-md">
+                    <!-- Icono de carga por defecto -->
+                    <i class="fas fa-globe-americas animate-pulse text-blue-500"></i>
+                </span>
+                
+                <div class="flex flex-col text-left">
+                    <span class="font-display text-lg text-white tracking-wide leading-none">VISITANTE VIP</span>
+                    <span id="locationText" class="font-mono text-[10px] text-gray-400 uppercase tracking-widest mt-1">¡Gracias por visitar VIP! Disfruta la música.</span>
+                </div>
+            </div>
+        </div>
+
+        <p class="font-mono text-xs text-blue-500 relative z-10 mt-4">© 2026 EAM DESIGN.</p>
     </footer>
 
     <!-- MODALES -->
@@ -529,22 +520,11 @@ Las normas se respetan y el sonido se gestiona de forma justa.
             <button id="closeDJsBtn" class="absolute top-0 right-0 bg-white text-black w-10 h-10 font-bold hover:bg-blue-600 hover:text-white transition">X</button>
             <h2 class="font-display text-5xl mb-6">LINEUP</h2>
             <ul class="font-mono text-lg space-y-4">
-                <li class="border-b border-white/20 pb-2 flex justify-between">
-                    <span>DJ EAM</span>
-                </li>
-                <li class="border-b border-white/20 pb-2 flex justify-between text-gray-400">
-                    <span>DJ SOLITA</span>
-                 </li>
-                 <li class="border-b border-white/20 pb-2 flex justify-between text-gray-400">
-                    <span>DJ KERRY</span>
-                </li>
-                <li class="border-b border-white/20 pb-2 flex justify-between text-gray-400">
-                    <span>DJ KERENDON</span>
-                </li>
-                 </li>
-                <li class="border-b border-white/20 pb-2 flex justify-between text-gray-400">
-                    <span>DJ SANDI</span>
-                </li>
+                <li class="border-b border-white/20 pb-2 flex justify-between"><span>DJ EAM</span></li>
+                <li class="border-b border-white/20 pb-2 flex justify-between text-gray-400"><span>DJ SOLITA</span></li>
+                <li class="border-b border-white/20 pb-2 flex justify-between text-gray-400"><span>DJ KERRY</span></li>
+                <li class="border-b border-white/20 pb-2 flex justify-between text-gray-400"><span>DJ KERENDON</span></li>
+                <li class="border-b border-white/20 pb-2 flex justify-between text-gray-400"><span>DJ SANDI</span></li>
             </ul>
         </div>
     </div>
@@ -665,13 +645,33 @@ Las normas se respetan y el sonido se gestiona de forma justa.
                     </div>
                 `;
             }
+
+            // --- WIDGET DE BANDERA (IP + FLAGCDN) ---
+            const flagContainer = document.getElementById('userFlag');
+            
+            // 1. Fetch a la API de IP
+            fetch('https://ipwho.is/')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const countryCode = data.country_code.toLowerCase();
+                        // 2. Inyección de la Bandera
+                        flagContainer.innerHTML = `
+                            <img src="https://flagcdn.com/w80/${countryCode}.png" 
+                                 alt="${data.country}" 
+                                 title="Visitante de ${data.country}"
+                                 class="w-10 h-auto rounded-sm shadow-sm opacity-90 hover:opacity-100 transition-opacity">
+                        `;
+                    } else {
+                        // Fallback si falla la API
+                        flagContainer.innerHTML = '<i class="fas fa-globe text-gray-500 text-2xl"></i>';
+                    }
+                })
+                .catch(err => {
+                    console.error("Error IP:", err);
+                    flagContainer.innerHTML = '<i class="fas fa-globe text-gray-500 text-2xl"></i>';
+                });
         });
     </script>
 </body>
-
-
-
-
-
-
-
+</html>
