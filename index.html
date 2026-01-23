@@ -117,7 +117,24 @@
             transform: translate(2px, 2px);
         }
 
-        /* --- MICRÓFONO 3D (AJUSTE FINO) --- */
+        /* --- SCROLLBAR BRUTALISTA PERSONALIZADO --- */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: var(--black);
+            border-left: 1px solid white;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: white;
+            border: 1px solid var(--black);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: var(--electric-blue);
+        }
+
+        /* --- MICRÓFONO 3D --- */
         .mic-wrapper {
             position: relative;
             overflow: visible; 
@@ -130,7 +147,6 @@
             background: var(--black);
             z-index: 0;
         }
-        /* AJUSTE PARA OPERA/FIREFOX: Altura controlada y anclada abajo */
         .mic-img {
             position: absolute;
             bottom: 0;
@@ -138,13 +154,12 @@
             z-index: 20;
             display: block; 
             width: 100%;
-            height: 110%; /* Reducido de 115% a 108% para que no suba tanto */
+            height: 110%; /* Ajustado para evitar solapamiento */
             object-fit: cover;
             
             filter: contrast(110%) brightness(1.1);
             transition: transform 0.3s ease;
             
-            /* Máscaras para el degradado inferior natural */
             -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
             mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
         }
@@ -189,12 +204,12 @@
         /* --- ECUALIZADOR BRUTALISTA --- */
         .equalizer {
             display: flex; gap: 2px; align-items: flex-end;
-            height: 18px; /* Altura fija para evitar saltos */
+            height: 18px;
         }
         .eq-bar {
             width: 4px; background: white;
             animation: eq-bounce 0.8s infinite ease-in-out alternate;
-            animation-play-state: paused; /* Pausado por defecto */
+            animation-play-state: paused;
         }
         .eq-bar:nth-child(1) { height: 60%; animation-delay: 0.1s; }
         .eq-bar:nth-child(2) { height: 90%; animation-delay: 0.3s; }
@@ -304,7 +319,7 @@
         <div class="hidden md:flex gap-8 font-bold text-sm tracking-widest items-center">
             <div class="live-clock font-mono text-xs border border-white/30 px-2 py-1 bg-black/50 text-gray-300">00:00:00</div>
             <button class="openGamesBtn hover:underline decoration-2 underline-offset-4 uppercase">Juegos</button>
-            <button class="openDJsBtn border border-white px-3 py-1 hover:bg-white hover:text-black transition">DJS LIST</button>
+            <button class="openDJsBtn border border-white px-3 py-1 hover:bg-white hover:text-black transition">DJ LIST</button>
         </div>
         
         <button id="mobileMenuBtn" class="md:hidden text-2xl text-white"><i class="fas fa-bars"></i></button>
@@ -317,7 +332,7 @@
         <button class="openDJsBtn text-xl font-display uppercase tracking-widest hover:text-blue-600 w-full text-center py-2 border-b border-white/10">DJs List</button>
     </div>
 
-    <!-- BARRA AZUL DESLIZANTE (Z-INDEX 40 PARA QUE EL MICRÓFONO PASE POR DEBAJO) -->
+    <!-- BARRA AZUL DESLIZANTE -->
     <div class="w-full bg-blue-700 text-white font-display text-sm py-1 border-b-2 border-white marquee-container relative z-40">
         <div class="marquee-content">
             <!-- EDITA EL TEXTO QUE SE DESLIZA AQUI -->
@@ -353,49 +368,41 @@
                 >
                 <div class="mic-gradient-overlay"></div>
                 
-                <!-- Info sobre la imagen -->
                 <div class="absolute bottom-4 right-4 text-right z-30">
                     <div class="font-display text-4xl md:text-6xl text-white drop-shadow-lg">VIP</div>
                     <div class="font-mono text-[10px] md:text-xs bg-white text-black inline-block px-1">FREQ: 8130</div>
                 </div>
-                <!-- Estrella Giratoria al Hover -->
                 <div class="rotating-star absolute top-4 right-4 text-white text-4xl md:text-6xl z-30 drop-shadow-md">✦</div>
             </div>
 
             <!-- UNIDAD DE CONTROL (REPRODUCTOR) -->
             <div class="mt-6 border-2 border-white p-4 md:p-6 bg-black relative z-20">
-                <div class="absolute -top-3 left-4 bg-black px-2 font-mono text-xs border border-white text-blue-500">CONTROL UNIT</div>
+                <div class="absolute -top-3 left-4 bg-black px-2 font-mono text-xs border border-white text-blue-500">RADIO VIP</div>
                 
-                <!-- Indicador EN VIVO y ECUALIZADOR (Posición ajustada a top-2 right-2 para todos los navegadores) -->
                 <div class="absolute top-2 right-2 flex items-center gap-3 z-30 pointer-events-none">
-                    <!-- Ecualizador -->
                     <div class="equalizer hidden md:flex" id="visualizer">
                         <div class="eq-bar"></div>
                         <div class="eq-bar"></div>
                         <div class="eq-bar"></div>
                         <div class="eq-bar"></div>
                     </div>
-                    <!-- Etiqueta En Vivo -->
                     <div class="flex items-center gap-2 bg-red-600 px-2 py-1 border border-white live-indicator shadow-lg">
                         <div class="w-2 h-2 bg-white rounded-full"></div>
                         <span class="font-display text-xs tracking-widest text-white">EN VIVO</span>
                     </div>
                 </div>
 
-                <!-- ELEMENTO DE AUDIO -->
                 <audio id="audioPlayer" src="https://mx.hdaudiostreaming.com/8130/stream"></audio>
                 
                 <div class="flex flex-col md:flex-row items-center gap-6 justify-between mt-8 md:mt-0">
-                    <!-- Vinilo Animado -->
                     <div class="mini-vinyl paused-animation hidden xs:flex md:flex" id="vinylRecord"></div>
                     
                     <div class="text-center md:text-left flex-grow w-full">
-                        <h2 class="text-2xl md:text-3xl mt-2 md:mt-0">CURRENT TRACK</h2>
+                        <h2 class="text-2xl md:text-3xl mt-2 md:mt-0">MÚSICA EN VIVO</h2>
                         <div class="h-1 w-full md:w-40 bg-blue-600 my-2 mx-auto md:mx-0"></div>
                         <p class="font-mono text-sm text-gray-400">LIVE BROADCAST SIGNAL</p>
                     </div>
                     
-                    <!-- Botones -->
                     <div class="flex gap-4 flex-shrink-0 mt-4 md:mt-0">
                          <button class="player-control-btn w-12 h-12 md:w-[60px] md:h-[60px] text-xl md:text-2xl"><i class="fas fa-backward"></i></button>
                          <button id="playBtn" class="player-control-btn bg-white text-black hover:bg-blue-600 hover:text-white border-none w-12 h-12 md:w-[60px] md:h-[60px] text-xl md:text-2xl"><i class="fas fa-play"></i></button>
@@ -403,7 +410,6 @@
                     </div>
                 </div>
 
-                <!-- Control de Volumen -->
                 <div class="mt-6 flex items-center gap-4">
                     <span class="font-bold text-xs">VOL</span>
                     <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.8">
@@ -425,9 +431,10 @@ Las normas se respetan y el sonido se gestiona de forma justa.
                 </p>
             </div>
 
-            <!-- TABLA DE RANGOS -->
-            <div class="border-2 border-white bg-black overflow-x-auto">
-                <div class="bg-white text-black font-bold p-2 text-center font-display tracking-widest text-xl">
+            <!-- TABLA DE RANGOS CON SCROLL -->
+            <!-- Se ha añadido max-h y scroll para listas largas de rangos -->
+            <div class="border-2 border-white bg-black overflow-x-auto max-h-[350px] overflow-y-auto custom-scrollbar">
+                <div class="bg-white text-black font-bold p-2 text-center font-display tracking-widest text-xl sticky top-0 z-10">
                     RANGOS
                 </div>
                 <table class="rank-table min-w-full">
@@ -457,22 +464,22 @@ Las normas se respetan y el sonido se gestiona de forma justa.
                         <!-- FILA 3: MOD -->
                         <tr class="group">
                             <td class="text-gray-500">03</td>
-                            <td><div class="flex items-center gap-3"><i class="fas fa-circle text-xs border border-white rounded-full p-1"></i><span class="group-hover:translate-x-2 transition-transform inline-block">MODCOOL</span></div></td>
-                            <td class="text-right text-gray-400">MOD</td>
+                            <td><div class="flex items-center gap-3"><i class="fas fa-circle text-xs border border-white rounded-full p-1"></i><span class="group-hover:translate-x-2 transition-transform inline-block">DAV</span></div></td>
+                            <td class="text-right text-gray-400">OWNER</td>
                         </tr>
                         
                         <!-- FILA 4: MOD -->
                         <tr class="group">
                             <td class="text-gray-500">04</td>
-                            <td><div class="flex items-center gap-3"><i class="fas fa-circle text-xs border border-white rounded-full p-1"></i><span class="group-hover:translate-x-2 transition-transform inline-block">HELPER01</span></div></td>
-                            <td class="text-right text-gray-400">MOD</td>
+                            <td><div class="flex items-center gap-3"><i class="fas fa-circle text-xs border border-white rounded-full p-1"></i><span class="group-hover:translate-x-2 transition-transform inline-block">Cinderella</span></div></td>
+                            <td class="text-right text-gray-400">OWNER</td>
                         </tr>
 
                         <!-- FILA 5: MOD -->
                         <tr class="group">
                             <td class="text-gray-500">05</td>
-                            <td><div class="flex items-center gap-3"><i class="fas fa-circle text-xs border border-white rounded-full p-1"></i><span class="group-hover:translate-x-2 transition-transform inline-block">HELPER01</span></div></td>
-                            <td class="text-right text-gray-400">MOD</td>
+                            <td><div class="flex items-center gap-3"><i class="fas fa-circle text-xs border border-white rounded-full p-1"></i><span class="group-hover:translate-x-2 transition-transform inline-block">NOT FOUND</span></div></td>
+                            <td class="text-right text-gray-400">OWNER</td>
                         </tr>
 
                     </tbody>
@@ -505,13 +512,17 @@ Las normas se respetan y el sonido se gestiona de forma justa.
                     <span>DJ EAM</span>
                 </li>
                 <li class="border-b border-white/20 pb-2 flex justify-between text-gray-400">
-                    <span>DJ KERENDON</span>
+                    <span>DJ SOLITA</span>
                  </li>
                  <li class="border-b border-white/20 pb-2 flex justify-between text-gray-400">
-                    <span>DJ</span>
+                    <span>DJ KERRY</span>
                 </li>
                 <li class="border-b border-white/20 pb-2 flex justify-between text-gray-400">
-                    <span>DJ</span>
+                    <span>DJ KERENDON</span>
+                </li>
+                 </li>
+                <li class="border-b border-white/20 pb-2 flex justify-between text-gray-400">
+                    <span>DJ SANDI</span>
                 </li>
             </ul>
         </div>
@@ -620,9 +631,11 @@ Las normas se respetan y el sonido se gestiona de forma justa.
                 const dName = daysShort[i];
                 const dNum = tempDate.getDate();
                 const isActive = i === currentDayIndex;
+                const monthName = tempDate.toLocaleDateString('es-ES', { month: 'short' }).toUpperCase().replace('.', '');
+
                 cal.innerHTML += `
                     <div class="aspect-square border border-white flex flex-col items-center justify-between p-2 ${isActive ? 'bg-blue-600 text-white' : 'bg-black text-gray-500'}">
-                        <span class="font-mono text-[10px] font-bold opacity-70">${currentYear}</span>
+                        <span class="font-mono text-[10px] font-bold opacity-70">${monthName} ${currentYear}</span>
                         <span class="font-display text-2xl leading-none">${dNum}</span>
                         <div class="flex items-center gap-1">
                             <span class="font-mono text-xs font-bold">${dName}</span>
@@ -634,7 +647,6 @@ Las normas se respetan y el sonido se gestiona de forma justa.
         });
     </script>
 </body>
-</html>
 
 
 
